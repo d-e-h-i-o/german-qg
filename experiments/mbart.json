@@ -19,5 +19,6 @@
   "per_device_eval_batch_size": 2,
   "predict_with_generate": true,
   "source_lang":  "de",
-  "target_lang": "de"
+  "target_lang": "de",
+  "cache_dir": "/data/experiments/dehio/cache"
 }
