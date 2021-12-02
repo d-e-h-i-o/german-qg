@@ -1,10 +1,10 @@
 {
-  "model_name_or_path": "t5-small",
+  "model_name_or_path": "facebook/mbart-large-50",
   "max_source_length": 512,
   "max_target_length": 32,
   "num_beams": 4,
   "source_prefix": "Generiere Frage",
-  "output_dir": "/data/experiments/dehio/models/t5-small-qg",
+  "output_dir": "/data/experiments/dehio/models/mbart-large-50-qg",
   "overwrite_output_dir": true,
   "save_strategy": "no",
   "do_train": true,
