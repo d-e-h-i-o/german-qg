@@ -460,8 +460,8 @@ def main():
         )
 
     def preprocess_function(samples):
-        def construct_input(sample):
-            answer, context = sample["answer"], sample["context"]
+        def construct_input(samples, i):
+            answer, context = samples["answers"][i], samples["context"][i]
             if isinstance(answer["text"], str):
                 answer_text = answer["text"].strip()
             else:
@@ -470,8 +470,11 @@ def main():
             hl_answer = f"<hl>{answer_text}<hl>"
             return context.replace(answer_text, hl_answer)
 
-        inputs = [construct_input(sample) for sample in samples]
-        targets = [sample["question"] for sample in samples]
+        inputs = []
+        targets = []
+        for i in range(len(samples["id"])):
+            inputs.append(construct_input(samples, i))
+            targets.append(samples["question"][i])
 
         inputs = [prefix + inp for inp in inputs]
         model_inputs = tokenizer(
