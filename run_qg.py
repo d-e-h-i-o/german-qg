@@ -250,11 +250,6 @@ class DataTrainingArguments:
 
     def __post_init__(self):
 
-        if self.source_lang is None or self.target_lang is None:
-            raise ValueError(
-                "Need to specify the source language and the target language."
-            )
-
         if self.train_file is not None:
             extension = self.train_file.split(".")[-1]
             assert extension == "json", "`train_file` should be a json file."
@@ -449,8 +444,8 @@ def main():
         model.config.forced_bos_token_id = forced_bos_token_id
 
     # Get the language codes for input/target.
-    source_lang = data_args.source_lang.split("_")[0]
-    target_lang = data_args.target_lang.split("_")[0]
+    # source_lang = data_args.source_lang.split("_")[0]
+    # target_lang = data_args.target_lang.split("_")[0]
 
     # Temporarily set max_target_length for training.
     max_target_length = data_args.max_target_length
@@ -475,8 +470,8 @@ def main():
             hl_answer = f"<hl>{answer_text}<hl>"
             return context.replace(answer_text, hl_answer)
 
-        inputs = [construct_input(sample) for sample in samples["translation"]]
-        targets = [sample["question"] for sample in samples["translation"]]
+        inputs = [construct_input(sample) for sample in samples]
+        targets = [sample["question"] for sample in samples]
 
         inputs = [prefix + inp for inp in inputs]
         model_inputs = tokenizer(
@@ -702,7 +697,10 @@ def main():
                 with open(output_prediction_file, "w", encoding="utf-8") as writer:
                     writer.write("\n".join(predictions))
 
-    kwargs = {"finetuned_from": model_args.model_name_or_path, "tasks": "translation"}
+    kwargs = {
+        "finetuned_from": model_args.model_name_or_path,
+        "tasks": "question generation",
+    }
     if data_args.dataset_name is not None:
         kwargs["dataset_tags"] = data_args.dataset_name
         if data_args.dataset_config_name is not None:
