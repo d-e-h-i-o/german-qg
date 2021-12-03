@@ -678,13 +678,13 @@ def main():
             tokenizer.decode(ids, skip_special_tokens=True)
             for ids in predict_results.predictions
         ]
-        with open(f"{data_args.output_path}/targets.txt", "w") as f:
+        with open(f"{training_args.output_dir}/targets.txt", "w") as f:
             f.write("\n".join(predictions))
         sources = [
             tokenizer.decode(ids, skip_special_tokens=True)
             for ids in predict_results.label_ids
         ]
-        with open(f"{data_args.output_path}/sources.txt", "w") as f:
+        with open(f"{training_args.output_dir}/sources.txt", "w") as f:
             f.write("\n".join(sources))
         metrics = predict_results.metrics
         max_predict_samples = (
