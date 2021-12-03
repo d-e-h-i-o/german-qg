@@ -681,7 +681,10 @@ def main():
         with open(f"{training_args.output_dir}/targets.txt", "w") as f:
             f.write("\n".join(predictions))
         sources = [
-            tokenizer.decode(ids, skip_special_tokens=True)
+            tokenizer.decode(
+                list(map(lambda t: 0 if t == -100 else t, ids)),
+                skip_special_tokens=True,
+            )
             for ids in predict_results.label_ids
         ]
         with open(f"{training_args.output_dir}/sources.txt", "w") as f:
