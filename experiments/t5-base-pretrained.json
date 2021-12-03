@@ -4,7 +4,7 @@
   "max_target_length": 32,
   "num_beams": 4,
   "source_prefix": "generate question: ",
-  "output_dir": "/data/experiments/dehio/models/t5-base-qg",
+  "output_dir": "/data/experiments/dehio/models/t5-base-pretrained-qg",
   "overwrite_output_dir": true,
   "save_strategy": "no",
   "do_train": true,
