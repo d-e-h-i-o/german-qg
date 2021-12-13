@@ -466,6 +466,8 @@ def main():
     def preprocess_function(samples):
         def construct_input(samples, i):
             answer, context = samples["answers"][i], samples["context"][i]
+            if isinstance(answer, list):
+                answer = answer[0]
             if isinstance(answer["text"], str):
                 answer_text = answer["text"].strip()
             else:
