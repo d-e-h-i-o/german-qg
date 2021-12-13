@@ -142,6 +142,10 @@ class DataTrainingArguments:
             "help": "The configuration name of the dataset to use (via the datasets library)."
         },
     )
+    dataset_field_name: Optional[str] = field(
+        default=None,
+        metadata={"help": "The field name, useful when the data is stored as json."},
+    )
     train_file: Optional[str] = field(
         default=None, metadata={"help": "The input training data file (a jsonlines)."}
     )
@@ -347,6 +351,7 @@ def main():
         raw_datasets = load_dataset(
             data_args.dataset_name,
             data_args.dataset_config_name,
+            field=data_args.dataset_field_name,
             cache_dir=model_args.cache_dir,
         )
     else:
