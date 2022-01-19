@@ -136,6 +136,9 @@ class DataTrainingArguments:
         default=None,
         metadata={"help": "The name of the dataset to use (via the datasets library)."},
     )
+    e2e: Optional[bool] = (
+        field(default=False, metadata={"help": "Prepare data for e2e"}),
+    )
     dataset_config_name: Optional[str] = field(
         default=None,
         metadata={
@@ -478,9 +481,15 @@ def main():
 
         inputs = []
         targets = []
-        for i in range(len(samples["id"])):
-            inputs.append(construct_input(samples, i))
-            targets.append(samples["question"][i])
+
+        if not data_args.e2e:
+            for i in range(len(samples["id"])):
+                inputs.append(construct_input(samples, i))
+                targets.append(samples["question"][i])
+        else:
+            for i in range(len(samples["context"])):
+                inputs.append(samples["context"][i])
+                targets.append(" <sep> ".join(samples["questions"][i]))
 
         inputs = [prefix + inp for inp in inputs]
         model_inputs = tokenizer(
